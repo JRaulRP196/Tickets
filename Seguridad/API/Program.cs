@@ -1,5 +1,6 @@
 using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Flujo;
+using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
 using Autorizacion.Abstracciones.Interfaces.DA;
 using Autorizacion.Abstracciones.Interfaces.Flujo;
@@ -10,9 +11,9 @@ using DA.Repositorios;
 using Flujo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Reglas;
 using Autorizacion.Middleware;
 using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,14 +35,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<Abstracciones.Interfaces.DA.IRepositorioDapper, RepositorioDapper>();
-builder.Services.AddScoped<ITicketDA, TicketDA>();
-builder.Services.AddScoped<ITicketFlujo, TicketFlujo>();
+builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
+builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
+builder.Services.AddScoped<IAutenticacionRegla, AutenticacionRegla>();
+builder.Services.AddScoped<IAutenticacionFlujo, AutenticacionFlujo>();
 
 builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();
 builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();

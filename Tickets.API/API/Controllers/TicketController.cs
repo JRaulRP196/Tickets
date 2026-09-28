@@ -1,10 +1,12 @@
 ﻿using Abstracciones.Interfaces.API;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketController : ControllerBase, ITicketController
@@ -16,17 +18,19 @@ namespace API.Controllers
         {
             _ticketFlujo = ticketFlujo;
         }
+        [Authorize(Roles = "2, 1")]
         [HttpPost]
         public async Task<IActionResult> Agregar([FromBody] TicketRequest ticket)
         {
             return Ok(await _ticketFlujo.Agregar(ticket));
         }
-
+        [Authorize(Roles = "2, 1")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Editar([FromBody] TicketRequest ticket, [FromRoute] Guid id)
         {
             return Ok(await _ticketFlujo.Editar(ticket, id));
         }
+        [Authorize(Roles = "2")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar([FromRoute] Guid id)
         {

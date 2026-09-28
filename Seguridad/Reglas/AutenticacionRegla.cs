@@ -1,0 +1,79 @@
+﻿
+using Abstracciones.Interfaces.DA;
+using Abstracciones.Interfaces.Reglas;
+using Abstracciones.Modelos;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+namespace Reglas
+{
+    public class AutenticacionRegla : IAutenticacionRegla
+    {
+
+        private readonly IConfiguration _configuration;
+        private readonly IUsuarioDA _usuarioDA;
+
+        public AutenticacionRegla(IConfiguration configuration, IUsuarioDA usuarioDA)
+        {
+            _configuration = configuration;
+            _usuarioDA = usuarioDA;
+        }
+
+        public async Task<Token> Login(Login login)
+        {
+            Token accessToken = new Token()
+            {
+                AccessToken = string.Empty,
+                ValidacionExitosa = false
+            };
+            if (!await CredencialesValidas(login))
+            {
+                return accessToken;
+            }
+            TokenConfiguracion tokenConfiguracion = _configuration.GetSection("TokenConfiguracion").Get<TokenConfiguracion>();
+            JwtSecurityToken token = await GenerarToken(login, tokenConfiguracion);
+            accessToken.AccessToken = new JwtSecurityTokenHandler().WriteToken(token);
+            accessToken.ValidacionExitosa = true;
+            return accessToken;
+        }
+
+        private async Task<bool> CredencialesValidas(Login login)
+        {
+            UsuarioResponse usuario = await _usuarioDA.ObtenerUsuario(login.Correo);
+            return usuario != null && usuario.PasswordHash == login.PasswordHash && usuario.Correo == login.Correo && usuario.Estado == true;
+        }
+
+        private async Task<JwtSecurityToken> GenerarToken(Login login, TokenConfiguracion tokenConfiguracion)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfiguracion.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            List<Claim> claims = await GenerarClaims(login);
+            var token = new JwtSecurityToken(
+                issuer: tokenConfiguracion.Issuer,
+                audience: tokenConfiguracion.Audience,
+                claims,
+                expires: DateTime.Now.AddMinutes(tokenConfiguracion.Expire),
+                signingCredentials: credentials
+            );
+            return token;
+        }
+
+        private async Task<List<Claim>> GenerarClaims(Login login)
+        {
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Email, login.Correo));
+            var rol = await ObtenerRol(login.Correo);
+            claims.Add(new Claim(ClaimTypes.Role, rol.ToString()));
+            return claims;
+        }
+
+        private async Task<int> ObtenerRol(string correo)
+        {
+            UsuarioResponse usuario = await _usuarioDA.ObtenerUsuario(correo);
+            return usuario.IdRol;
+        }
+    }
+}
