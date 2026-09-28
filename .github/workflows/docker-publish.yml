@@ -25,6 +25,8 @@ jobs:
         with:
           context: Tickets.API
           push: true
+          secrets: |
+            GH_PACKAGES_TOKEN=${{ secrets.GH_PACKAGES_TOKEN }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/tickets-api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/tickets-api:${{ github.sha }}
@@ -34,6 +36,8 @@ jobs:
         with:
           context: Seguridad
           push: true
+          secrets: |
+            GH_PACKAGES_TOKEN=${{ secrets.GH_PACKAGES_TOKEN }}
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:${{ github.sha }}
