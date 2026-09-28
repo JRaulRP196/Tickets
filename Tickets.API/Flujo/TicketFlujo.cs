@@ -1,23 +1,32 @@
-﻿using Abstracciones.Interfaces.Flujo;
+﻿using Abstracciones.Interfaces.DA;
+using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 
 namespace Flujo
 {
     public class TicketFlujo : ITicketFlujo
     {
-        public Task<Guid> Agregar(TicketRequest ticket)
+
+        private readonly ITicketDA _ticketDA;
+
+        public TicketFlujo(ITicketDA ticketDA)
         {
-            throw new NotImplementedException();
+            _ticketDA = ticketDA;
         }
 
-        public Task<Guid> Editar(TicketRequest ticket, Guid id)
+        public async Task<Guid> Agregar(TicketRequest ticket)
         {
-            throw new NotImplementedException();
+            return await _ticketDA.Agregar(ticket);
         }
 
-        public Task<Guid> Eliminar(Guid id)
+        public async Task<Guid> Editar(TicketRequest ticket, Guid id)
         {
-            throw new NotImplementedException();
+            return await _ticketDA.Editar(ticket, id);
+        }
+
+        public async Task<Guid> Eliminar(Guid id)
+        {
+            return await _ticketDA.Eliminar(id);
         }
 
         public Task<TicketResponse> ObtenerTicket(Guid id)
