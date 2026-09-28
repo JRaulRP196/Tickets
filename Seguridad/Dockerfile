@@ -4,6 +4,7 @@ WORKDIR /src
 COPY ["Abstracciones/Abstracciones.csproj", "Abstracciones/"]
 COPY ["DA/DA.csproj","DA/"]
 COPY ["Flujo/Flujo.csproj", "Flujo/"]
+COPY ["Reglas/Reglas.csproj", "Reglas/"]
 COPY ["API/API.csproj","API/"]
 
 RUN --mount=type=secret,id=GH_PACKAGES_TOKEN \
