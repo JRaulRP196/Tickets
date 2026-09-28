@@ -36,4 +36,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:${{ github.sha }}
