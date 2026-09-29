@@ -26,12 +26,16 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Editar([FromBody] TicketRequest ticket, [FromRoute] Guid id)
         {
+            if (await _ticketFlujo.ObtenerTicketBase(id) == null)
+                return BadRequest("El usuario no existe");
             return Ok(await _ticketFlujo.Editar(ticket, id));
         }
         [Authorize(Roles = "2")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar([FromRoute] Guid id)
         {
+            if (await _ticketFlujo.ObtenerTicketBase(id) == null)
+                return BadRequest("El usuario no existe");
             return Ok(await _ticketFlujo.Eliminar(id));
         }
         [HttpGet("{id}")]
@@ -42,25 +46,41 @@ namespace API.Controllers
                 return NotFound("Ticket no encontrado");
             return Ok(ticket);
         }
+        [Authorize(Roles = "1")]
         [HttpGet("Tickets")]
-        public Task<IActionResult> ObtenerTickets()
+        public async Task<IActionResult> ObtenerTickets()
         {
-            throw new NotImplementedException();
+            var tickets = await _ticketFlujo.ObtenerTickets();
+            if (!tickets.Any())
+                return NoContent();
+            return Ok(tickets);
         }
+        [Authorize(Roles = "1")]
         [HttpGet("Tickets/Asignados/{idSoporte}")]
-        public Task<IActionResult> ObtenerTicketsAsignados([FromRoute] Guid idSoporte)
+        public async Task<IActionResult> ObtenerTicketsAsignados([FromRoute] Guid idSoporte)
         {
-            throw new NotImplementedException();
+            var tickets = await _ticketFlujo.ObtenerTicketsAsignados(idSoporte);
+            if (!tickets.Any())
+                return NoContent();
+            return Ok(tickets);
         }
+        [Authorize(Roles = "2")]
         [HttpGet("Tickets/Creados/{idEmisor}")]
-        public Task<IActionResult> ObtenerTicketsCreados([FromRoute] Guid idEmisor)
+        public async Task<IActionResult> ObtenerTicketsCreados([FromRoute] Guid idEmisor)
         {
-            throw new NotImplementedException();
+            var tickets = await _ticketFlujo.ObtenerTicketsCreados(idEmisor);
+            if (!tickets.Any())
+                return NoContent();
+            return Ok(tickets);
         }
+        [Authorize(Roles = "1")]
         [HttpGet("Tickets/Pendientes")]
-        public Task<IActionResult> ObtenerTicketsPendientes()
+        public async Task<IActionResult> ObtenerTicketsPendientes()
         {
-            throw new NotImplementedException();
+            var tickets = await _ticketFlujo.ObtenerTicketsPendientes();
+            if (!tickets.Any())
+                return NoContent();
+            return Ok(tickets);
         }
     }
 }

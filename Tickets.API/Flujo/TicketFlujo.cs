@@ -37,22 +37,27 @@ namespace Flujo
             return await _ticketRegla.ObtenerTicket(id);
         }
 
-        public async Task<List<TicketResponse>> ObtenerTickets()
+        public async Task<TicketResponse> ObtenerTicketBase(Guid id)
+        {
+            return await _ticketDA.ObtenerTicket(id);
+        }
+
+        public async Task<IEnumerable<TicketResponse>> ObtenerTickets()
         {
             return await _ticketDA.ObtenerTickets();
         }
 
-        public async Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
         {
             return await _ticketDA.ObtenerTicketsAsignados(idSoporte);
         }
 
-        public async Task<List<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
         {
             return await _ticketDA.ObtenerTicketsCreados(idEmisor);
         }
 
-        public async Task<List<TicketResponse>> ObtenerTicketsPendientes()
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsPendientes()
         {
             return await _ticketDA.ObtenerTicketsPendientes();
         }

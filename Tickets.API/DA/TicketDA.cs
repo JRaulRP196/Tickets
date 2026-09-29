@@ -61,24 +61,32 @@ namespace DA
             return respuesta;
         }
 
-        public Task<List<TicketResponse>> ObtenerTickets()
+        public async Task<IEnumerable<TicketResponse>> ObtenerTickets()
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM obtener_tickets()";
+            var respuesta = await _connection.QueryAsync<TicketResponse>(query);
+            return respuesta;
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM obtener_tickets_asignados(@p_id)";
+            var respuesta = await _connection.QueryAsync<TicketResponse>(query, new { p_id = idSoporte});
+            return respuesta;
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM obtener_tickets_creados(@p_id)";
+            var respuesta = await _connection.QueryAsync<TicketResponse>(query, new { p_id = idEmisor });
+            return respuesta;
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsPendientes()
+        public async Task<IEnumerable<TicketResponse>> ObtenerTicketsPendientes()
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM obtener_tickets_pendientes()";
+            var respuesta = await _connection.QueryAsync<TicketResponse>(query);
+            return respuesta;
         }
     }
 }

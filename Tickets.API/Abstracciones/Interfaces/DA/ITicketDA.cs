@@ -6,10 +6,10 @@ namespace Abstracciones.Interfaces.DA
     {
 
         Task<TicketResponse> ObtenerTicket(Guid id);
-        Task<List<TicketResponse>> ObtenerTickets();
-        Task<List<TicketResponse>> ObtenerTicketsPendientes();
-        Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte);
-        Task<List<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor);
+        Task<IEnumerable<TicketResponse>> ObtenerTickets();
+        Task<IEnumerable<TicketResponse>> ObtenerTicketsPendientes();
+        Task<IEnumerable<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte);
+        Task<IEnumerable<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor);
         Task<Guid> Agregar(TicketRequest ticket);
         Task<Guid> Editar(TicketRequest ticket, Guid id);
         Task<Guid> Eliminar(Guid id);
