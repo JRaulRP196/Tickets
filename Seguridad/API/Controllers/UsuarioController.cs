@@ -2,7 +2,6 @@
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -27,6 +26,14 @@ namespace API.Controllers
                 return BadRequest("El correo ya se encuentra registrado");
             var respuesta = await _usuarioFlujo.CrearUsuario(usuario);
             return Ok(respuesta);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid id)
+        {
+            var usuario = await _usuarioFlujo.ObtenerUsuarioPorId(id);
+            if(usuario == null)
+                return NotFound("Usuario no encontrado");
+            return Ok(usuario);
         }
     }
 }

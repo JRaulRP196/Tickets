@@ -40,5 +40,12 @@ namespace DA
             var resultado = await _connection.QueryFirstOrDefaultAsync<UsuarioResponse>(query, new { p_correo = correo });
             return resultado;
         }
+
+        public async Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id)
+        {
+            var query = "SELECT * FROM obtenerusuarioporid(@p_id)";
+            var resultado = await _connection.QueryFirstOrDefaultAsync<UsuarioResponse>(query, new { p_id = id });
+            return resultado;
+        }
     }
 }

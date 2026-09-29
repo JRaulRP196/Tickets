@@ -1,5 +1,6 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Flujo;
+using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
 
 namespace Flujo
@@ -8,10 +9,12 @@ namespace Flujo
     {
 
         private readonly ITicketDA _ticketDA;
+        private readonly ITicketRegla _ticketRegla;
 
-        public TicketFlujo(ITicketDA ticketDA)
+        public TicketFlujo(ITicketDA ticketDA, ITicketRegla ticketRegla)
         {
             _ticketDA = ticketDA;
+            _ticketRegla = ticketRegla;
         }
 
         public async Task<Guid> Agregar(TicketRequest ticket)
@@ -29,29 +32,29 @@ namespace Flujo
             return await _ticketDA.Eliminar(id);
         }
 
-        public Task<TicketResponse> ObtenerTicket(Guid id)
+        public async Task<TicketDetalle> ObtenerTicket(Guid id)
         {
-            throw new NotImplementedException();
+            return await _ticketRegla.ObtenerTicket(id);
         }
 
-        public Task<List<TicketResponse>> ObtenerTickets()
+        public async Task<List<TicketResponse>> ObtenerTickets()
         {
-            throw new NotImplementedException();
+            return await _ticketDA.ObtenerTickets();
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
+        public async Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte)
         {
-            throw new NotImplementedException();
+            return await _ticketDA.ObtenerTicketsAsignados(idSoporte);
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
+        public async Task<List<TicketResponse>> ObtenerTicketsCreados(Guid idEmisor)
         {
-            throw new NotImplementedException();
+            return await _ticketDA.ObtenerTicketsCreados(idEmisor);
         }
 
-        public Task<List<TicketResponse>> ObtenerTicketsPendientes()
+        public async Task<List<TicketResponse>> ObtenerTicketsPendientes()
         {
-            throw new NotImplementedException();
+            return await _ticketDA.ObtenerTicketsPendientes();
         }
     }
 }

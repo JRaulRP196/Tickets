@@ -4,7 +4,7 @@ namespace Abstracciones.Interfaces.Flujo
 {
     public interface ITicketFlujo
     {
-        Task<TicketResponse> ObtenerTicket(Guid id);
+        Task<TicketDetalle> ObtenerTicket(Guid id);
         Task<List<TicketResponse>> ObtenerTickets();
         Task<List<TicketResponse>> ObtenerTicketsPendientes();
         Task<List<TicketResponse>> ObtenerTicketsAsignados(Guid idSoporte);

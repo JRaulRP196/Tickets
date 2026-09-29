@@ -18,13 +18,11 @@ namespace API.Controllers
         {
             _ticketFlujo = ticketFlujo;
         }
-        [Authorize(Roles = "2, 1")]
         [HttpPost]
         public async Task<IActionResult> Agregar([FromBody] TicketRequest ticket)
         {
             return Ok(await _ticketFlujo.Agregar(ticket));
         }
-        [Authorize(Roles = "2, 1")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Editar([FromBody] TicketRequest ticket, [FromRoute] Guid id)
         {
@@ -37,9 +35,12 @@ namespace API.Controllers
             return Ok(await _ticketFlujo.Eliminar(id));
         }
         [HttpGet("{id}")]
-        public Task<IActionResult> ObtenerTicket([FromRoute] Guid id)
+        public async Task<IActionResult> ObtenerTicket([FromRoute] Guid id)
         {
-            throw new NotImplementedException();
+            var ticket = await _ticketFlujo.ObtenerTicket(id);
+            if (ticket == null)
+                return NotFound("Ticket no encontrado");
+            return Ok(ticket);
         }
         [HttpGet("Tickets")]
         public Task<IActionResult> ObtenerTickets()

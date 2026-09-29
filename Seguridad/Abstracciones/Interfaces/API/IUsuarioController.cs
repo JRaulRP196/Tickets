@@ -5,6 +5,7 @@ namespace Abstracciones.Interfaces.API
 {
     public interface IUsuarioController
     {
+        Task<IActionResult> ObtenerUsuarioPorId(Guid id);
         Task<IActionResult> CrearUsuario(UsuarioRequest usuario);
     }
 }

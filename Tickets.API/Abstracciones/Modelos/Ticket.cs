@@ -19,6 +19,10 @@
     public class TicketResponse : TicketRequest
     {
         public Guid Id { get; set; }
+    }
+
+    public class TicketDetalle : TicketResponse
+    {
         public string Emisor { get; set; }
         public string Soporte { get; set; }
     }

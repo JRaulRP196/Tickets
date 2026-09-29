@@ -54,9 +54,11 @@ namespace DA
             return respuesta;
         }
 
-        public Task<TicketResponse> ObtenerTicket(Guid id)
+        public async Task<TicketResponse> ObtenerTicket(Guid id)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM obtener_ticket(@p_id)";
+            var respuesta = await _connection.QueryFirstOrDefaultAsync<TicketResponse>(query, new { p_id = id });
+            return respuesta;
         }
 
         public Task<List<TicketResponse>> ObtenerTickets()

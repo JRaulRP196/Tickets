@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Autorizacion.Middleware;
 using System.Text;
+using Abstracciones.Interfaces.Reglas;
+using Reglas;
+using Abstracciones.Interfaces.Servicios;
+using Servicios;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +42,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<Abstracciones.Interfaces.DA.IRepositorioDapper, RepositorioDapper>();
 builder.Services.AddScoped<ITicketDA, TicketDA>();
 builder.Services.AddScoped<ITicketFlujo, TicketFlujo>();
+builder.Services.AddScoped<ITicketRegla, TicketRegla>();
+builder.Services.AddScoped<IConfiguracion, Configuracion>();
+builder.Services.AddScoped<IUsuarioServicios, UsuarioServicio>();
 
 builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();
 builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();
