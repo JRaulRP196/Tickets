@@ -1,0 +1,53 @@
+services:
+  api-tickets:
+    image: joserp196/tickets-api
+    depends_on:
+      - db-tickets
+      - api-seguridad
+    environment:
+      - ConnectionStrings__TicketsBD=Host=db-tickets;Port=5432;Database=${DB_TICKET_NAME};Username=${USER_DB_TICKET};Password=${PASSWORD_DB_TICKET}
+      - ConnectionStrings__SeguridadBD=Host=db-seguridad;Port=5432;Database=${DB_SEGURIDAD_NAME};Username=${USER_DB_SEGURIDAD};Password=${PASSWORD_DB_SEGURIDAD}
+      - ApiUsuarios__UrlBase=http://api-seguridad:8080
+      - TokenConfiguracion__Key=${API_KEY}
+      - TokenConfiguracion__Issuer=http://api-seguridad:8080
+      - TokenConfiguracion__Audience=http://api-tickets:8080
+    ports:
+      - 5001:8080
+
+  api-seguridad:
+    image: joserp196/seguridad-tickets-api
+    depends_on:
+      - db-seguridad
+    environment:
+      - ConnectionStrings__SeguridadBD=Host=db-seguridad;Port=5432;Database=${DB_SEGURIDAD_NAME};Username=${USER_DB_SEGURIDAD};Password=${PASSWORD_DB_SEGURIDAD}
+      - TokenConfiguracion__Key=${API_KEY}
+      - TokenConfiguracion__Issuer=http://api-seguridad:8080
+      - TokenConfiguracion__Audience=http://api-tickets:8080
+    ports:
+      - 5002:8080
+
+  db-tickets:
+    image: postgres:18
+    container_name: db-tickets
+    environment:
+      POSTGRES_USER: ${USER_DB_TICKET}
+      POSTGRES_PASSWORD: ${PASSWORD_DB_TICKET}
+      POSTGRES_DB: ${DB_TICKET_NAME}
+    volumes:
+      - ./db/tickets:/docker-entrypoint-initdb.d:ro
+      - tickets-data:/var/lib/postgresql
+
+  db-seguridad:
+    image: postgres:18
+    container_name: db-seguridad
+    environment:
+      POSTGRES_USER: ${USER_DB_SEGURIDAD}
+      POSTGRES_PASSWORD: ${PASSWORD_DB_SEGURIDAD}
+      POSTGRES_DB: ${DB_SEGURIDAD_NAME}
+    volumes:
+      - ./db/seguridad:/docker-entrypoint-initdb.d:ro
+      - seguridad-data:/var/lib/postgresql
+
+volumes:
+  tickets-data:
+  seguridad-data:
