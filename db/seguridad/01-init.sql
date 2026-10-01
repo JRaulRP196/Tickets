@@ -119,15 +119,7 @@ CREATE FUNCTION public.obtenerusuarioporid(p_id uuid) RETURNS TABLE(id uuid, nom
 $$;
 
 
-CREATE OR REPLACE FUNCTION obtener_roles()
-RETURNS SETOF roles
-LANGUAGE sql
-STABLE
-AS $$
 
-	SELECT * FROM roles;
-
-$$;
 
 
 
@@ -161,7 +153,15 @@ ALTER TABLE public.roles ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
     CACHE 1
 );
 
+CREATE OR REPLACE FUNCTION public.obtener_roles()
+RETURNS SETOF public.roles
+LANGUAGE sql
+STABLE
+AS $$
 
+	SELECT * FROM roles;
+
+$$;
 --
 -- TOC entry 221 (class 1259 OID 16750)
 -- Name: usuarios; Type: TABLE; Schema: public; Owner: postgres

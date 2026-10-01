@@ -1,6 +1,6 @@
 services:
   api-tickets:
-    image: joserp196/tickets-api
+    image: joserp196/tickets-api:latest
     depends_on:
       - db-tickets
       - api-seguridad
@@ -15,7 +15,7 @@ services:
       - 5001:8080
 
   api-seguridad:
-    image: joserp196/seguridad-tickets-api
+    image: joserp196/seguridad-tickets-api:latest
     depends_on:
       - db-seguridad
     environment:
