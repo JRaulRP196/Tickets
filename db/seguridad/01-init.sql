@@ -119,6 +119,17 @@ CREATE FUNCTION public.obtenerusuarioporid(p_id uuid) RETURNS TABLE(id uuid, nom
 $$;
 
 
+CREATE OR REPLACE FUNCTION obtener_roles()
+RETURNS SETOF roles
+LANGUAGE sql
+STABLE
+AS $$
+
+	SELECT * FROM roles;
+
+$$;
+
+
 
 SET default_tablespace = '';
 

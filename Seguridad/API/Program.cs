@@ -46,6 +46,8 @@ builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 builder.Services.AddScoped<IAutenticacionRegla, AutenticacionRegla>();
 builder.Services.AddScoped<IAutenticacionFlujo, AutenticacionFlujo>();
+builder.Services.AddScoped<IRolDA, RolDA>();
+builder.Services.AddScoped<IRolFlujo, RolFlujo>();
 
 builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();
 builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();
