@@ -13,6 +13,7 @@ services:
       - TokenConfiguracion__Audience=http://api-tickets:8080
     ports:
       - 5001:8080
+    pull_policy: always
 
   api-seguridad:
     image: joserp196/seguridad-tickets-api:latest
@@ -25,6 +26,7 @@ services:
       - TokenConfiguracion__Audience=http://api-tickets:8080
     ports:
       - 5002:8080
+    pull_policy: always
 
   db-tickets:
     image: postgres:18

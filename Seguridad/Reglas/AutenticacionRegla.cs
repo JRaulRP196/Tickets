@@ -1,4 +1,4 @@
-﻿
+
 using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
@@ -64,16 +64,13 @@ namespace Reglas
         private async Task<List<Claim>> GenerarClaims(Login login)
         {
             List<Claim> claims = new List<Claim>();
+            UsuarioResponse usuario = await _usuarioDA.ObtenerUsuario(login.Correo);
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Email, login.Correo));
-            var rol = await ObtenerRol(login.Correo);
-            claims.Add(new Claim(ClaimTypes.Role, rol.ToString()));
+            claims.Add(new Claim(ClaimTypes.Name, usuario.Nombre));
+            claims.Add(new Claim(ClaimTypes.Role, usuario.IdRol.ToString()));
             return claims;
         }
 
-        private async Task<int> ObtenerRol(string correo)
-        {
-            UsuarioResponse usuario = await _usuarioDA.ObtenerUsuario(correo);
-            return usuario.IdRol;
-        }
     }
 }
