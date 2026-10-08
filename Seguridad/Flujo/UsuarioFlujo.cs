@@ -1,5 +1,6 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Interfaces.Flujo;
+using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
 
 namespace Flujo
@@ -9,13 +10,18 @@ namespace Flujo
 
         private readonly IUsuarioDA _seguridadDA;
 
-        public UsuarioFlujo(IUsuarioDA seguridadDA)
+        private readonly IContrasenaRegla _contrasenaRegla;
+
+        public UsuarioFlujo(IUsuarioDA seguridadDA, IContrasenaRegla contrasenaRegla)
         {
             _seguridadDA = seguridadDA;
+            _contrasenaRegla = contrasenaRegla;
         }
 
         public async Task<Guid> CrearUsuario(UsuarioRequest usuario)
         {
+            // PasswordHash llega con la contraseña en texto plano (por HTTPS); se guarda su hash.
+            usuario.PasswordHash = _contrasenaRegla.Hashear(usuario.PasswordHash);
             return await _seguridadDA.CrearUsuario(usuario);
         }
 

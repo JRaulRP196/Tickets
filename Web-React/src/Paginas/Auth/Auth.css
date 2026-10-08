@@ -202,6 +202,29 @@
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+.campo select {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--texto);
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  padding: 0.65rem 0.8rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.campo select:disabled {
+  color: var(--texto-suave);
+  cursor: not-allowed;
+}
+
+.campo select:focus {
+  outline: none;
+  border-color: var(--primario);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primario) 25%, transparent);
+}
+
 .campo input::placeholder {
   color: var(--texto-suave);
   opacity: 0.6;

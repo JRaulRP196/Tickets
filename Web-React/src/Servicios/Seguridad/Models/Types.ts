@@ -8,7 +8,7 @@ export interface Usuario {
   correo: string;
 }
 
-export interface UsuarioRequest extends Usuario {
+export interface UsuarioRequest extends Omit<Usuario, "id"> {
   idRol: number;
 }
 
@@ -24,4 +24,9 @@ export interface Login {
 export interface Token {
   accessToken: string;
   validacionExitosa: boolean;
+}
+
+export interface Rol {
+  id: number;
+  nombre: string;
 }

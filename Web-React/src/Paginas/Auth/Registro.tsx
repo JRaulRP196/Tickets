@@ -1,28 +1,68 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from "react";
+import type { Rol } from "../../Servicios/Seguridad/Models/Types";
+import { seguridadServicio } from "../../Servicios/Seguridad/EndPoints";
 
 interface Props {
-  irALogin: () => void
+  irALogin: () => void;
 }
 
 function Registro({ irALogin }: Props) {
-  const [nombre, setNombre] = useState('')
-  const [apellido1, setApellido1] = useState('')
-  const [apellido2, setApellido2] = useState('')
-  const [correo, setCorreo] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmar, setConfirmar] = useState('')
-  const [error, setError] = useState('')
+  const [nombre, setNombre] = useState("");
+  const [apellido1, setApellido1] = useState("");
+  const [apellido2, setApellido2] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmar, setConfirmar] = useState("");
+  const [idRol, setIdRol] = useState("");
+  const [roles, setRoles] = useState<Rol[] | null>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    seguridadServicio
+      .roles()
+      .then((r) => setRoles(r ?? []))
+      .catch((err) =>
+        setError(
+          err instanceof Error
+            ? err.message
+            : "No se pudieron cargar los roles",
+        ),
+      );
+  }, []);
 
   const enviar = (e: FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (password !== confirmar) {
-      setError('Las contraseñas no coinciden.')
-      return
+      setError("Las contraseñas no coinciden.");
+      return;
     }
-    setError('')
-    // TODO: llamar al servicio de Seguridad (agregar usuario)
-    console.log({ nombre, apellido1, apellido2, correo, password })
-  }
+    seguridadServicio
+      .registrar({
+        correo,
+        nombre,
+        apellido1,
+        apellido2,
+        passwordHash: password,
+        idRol: Number(idRol),
+        estado: true,
+      })
+      .then(irALogin)
+      .catch((error) =>
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Ocurrio un error al registrar el usuario",
+        ),
+      );
+    console.log({
+      nombre,
+      apellido1,
+      apellido2,
+      correo,
+      password,
+      idRol: Number(idRol),
+    });
+  };
 
   return (
     <form className="auth__form" onSubmit={enviar}>
@@ -31,7 +71,11 @@ function Registro({ irALogin }: Props) {
         <p>Solo toma un minuto.</p>
       </header>
 
-      {error && <div className="auth__error" role="alert">{error}</div>}
+      {error && (
+        <div className="auth__error" role="alert">
+          {error}
+        </div>
+      )}
 
       <label className="campo">
         <span>Nombre</span>
@@ -80,6 +124,25 @@ function Registro({ irALogin }: Props) {
         />
       </label>
 
+      <label className="campo">
+        <span>Rol</span>
+        <select
+          value={idRol}
+          onChange={(e) => setIdRol(e.target.value)}
+          disabled={roles?.length === 0}
+          required
+        >
+          <option value="" disabled>
+            {roles?.length === 0 ? "Cargando roles…" : "Selecciona un rol"}
+          </option>
+          {roles?.map((rol) => (
+            <option key={rol.id} value={rol.id}>
+              {rol.nombre}
+            </option>
+          ))}
+        </select>
+      </label>
+
       <div className="fila">
         <label className="campo">
           <span>Contraseña</span>
@@ -106,14 +169,18 @@ function Registro({ irALogin }: Props) {
         </label>
       </div>
 
-      <button type="submit" className="boton">Crear cuenta</button>
+      <button type="submit" className="boton">
+        Crear cuenta
+      </button>
 
       <p className="auth__cambio">
-        ¿Ya tienes cuenta?{' '}
-        <button type="button" onClick={irALogin}>Inicia sesión</button>
+        ¿Ya tienes cuenta?{" "}
+        <button type="button" onClick={irALogin}>
+          Inicia sesión
+        </button>
       </p>
     </form>
-  )
+  );
 }
 
-export default Registro
+export default Registro;

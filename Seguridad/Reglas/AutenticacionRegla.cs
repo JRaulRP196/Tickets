@@ -16,10 +16,13 @@ namespace Reglas
         private readonly IConfiguration _configuration;
         private readonly IUsuarioDA _usuarioDA;
 
-        public AutenticacionRegla(IConfiguration configuration, IUsuarioDA usuarioDA)
+        private readonly IContrasenaRegla _contrasenaRegla;
+
+        public AutenticacionRegla(IConfiguration configuration, IUsuarioDA usuarioDA, IContrasenaRegla contrasenaRegla)
         {
             _configuration = configuration;
             _usuarioDA = usuarioDA;
+            _contrasenaRegla = contrasenaRegla;
         }
 
         public async Task<Token> Login(Login login)
@@ -43,7 +46,7 @@ namespace Reglas
         private async Task<bool> CredencialesValidas(Login login)
         {
             UsuarioResponse usuario = await _usuarioDA.ObtenerUsuario(login.Correo);
-            return usuario != null && usuario.PasswordHash == login.PasswordHash && usuario.Correo == login.Correo && usuario.Estado == true;
+            return usuario != null && _contrasenaRegla.Verificar(login.PasswordHash, usuario.PasswordHash) && usuario.Correo == login.Correo && usuario.Estado == true;
         }
 
         private async Task<JwtSecurityToken> GenerarToken(Login login, TokenConfiguracion tokenConfiguracion)
