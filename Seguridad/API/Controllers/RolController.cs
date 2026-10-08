@@ -19,7 +19,7 @@ namespace API.Controllers
             _rolFlujo = rolFlujo;
         }
 
-        [Authorize(Roles = "1")]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> ObtenerRoles()
         {
