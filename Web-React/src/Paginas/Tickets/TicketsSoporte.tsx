@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import type { TicketResponse } from "../../Servicios/Tickets/Models/Types";
 import TarjetaTicket from "./TarjetaTicket";
-import { asignadosMuestra, sinAsignarMuestra } from "./datosMuestra";
+import DetalleTicket from "./DetalleTicket";
 import "./TicketsSoporte.css";
 import { ticketServicio } from "../../Servicios/Tickets/EndPoints";
 import { useAuth } from "../../Servicios/Context";
@@ -10,20 +11,25 @@ type Pestana = "sinAsignar" | "asignados";
 
 function TicketsSoporte() {
   const [pestana, setPestana] = useState<Pestana>("sinAsignar");
-  const [sinAsignar, setSinAsignar] = useState<TicketResponse[] | null>(
-    sinAsignarMuestra,
-  );
-  const [asignados, setAsignados] = useState<TicketResponse[] | null>(
-    asignadosMuestra,
-  );
+  const [sinAsignar, setSinAsignar] = useState<TicketResponse[] | null>([]);
+  const [asignados, setAsignados] = useState<TicketResponse[] | null>([]);
   const [error, setError] = useState("");
-  const { sesion } = useAuth();
+  const { sesion, cerrarSesion } = useAuth();
+  const navigate = useNavigate();
+  const [idDetalle, setIdDetalle] = useState<string | null>(null);
+  const cerrarDetalle = useCallback(() => setIdDetalle(null), []);
 
-  useEffect(() => {
+  const salir = () => {
+    cerrarSesion();
+    navigate("/login", { replace: true });
+  };
+
+  const cargarTickets = useCallback(() => {
     ticketServicio
       .pendientes()
       .then((tickets) => {
         setSinAsignar(tickets);
+        setError("");
       })
       .catch((error) => {
         setError(
@@ -32,31 +38,55 @@ function TicketsSoporte() {
             : "Ocurrio un error al cargar los tickets",
         );
       });
-  }, []);
-
-  useEffect(() => {
     ticketServicio
       .asigandos(sesion ? sesion.id : "")
       .then((tickets) => {
         setAsignados(tickets);
+        setError("");
       })
       .catch((error) => {
         setError(
           error instanceof Error
             ? error.message
-            : "Ocurrio un error al cargar los tickets",
+            : "Ocurrio un error al cargar los asignados",
         );
       });
   }, [sesion]);
 
+  useEffect(() => {
+    cargarTickets();
+  }, [cargarTickets]);
+
   const asignar = (id: string) => {
-    setError("");
-    // TODO: llamar al servicio para asignarse el ticket (Editar con idSoporte = usuario actual)
+    ticketServicio
+      .asignar(id, sesion ? sesion.id : "")
+      .then(() => {
+        setError("");
+        cargarTickets();
+      })
+      .catch((error) => {
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Ocurrio un error al asignar el ticket",
+        );
+      });
   };
 
   const terminar = (id: string) => {
-    setError("");
-    // TODO: llamar al servicio para terminar el ticket (Editar con el estado final)
+    ticketServicio
+      .terminar(id)
+      .then(() => {
+        setError("");
+        cargarTickets();
+      })
+      .catch((error) => {
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Ocurrio un error al terminar el ticket",
+        );
+      });
   };
 
   const visibles = pestana === "sinAsignar" ? sinAsignar : asignados;
@@ -68,11 +98,16 @@ function TicketsSoporte() {
           <h1>Panel de soporte</h1>
           <p>Gestiona las solicitudes de tu equipo.</p>
         </div>
-        <div className="soporte__usuario">
-          <span className="soporte__avatar" aria-hidden="true">
-            S
-          </span>
-          Soporte
+        <div className="soporte__acciones">
+          <div className="soporte__usuario">
+            <span className="soporte__avatar" aria-hidden="true">
+              S
+            </span>
+            Soporte
+          </div>
+          <button type="button" className="soporte__salir" onClick={salir}>
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
@@ -133,9 +168,14 @@ function TicketsSoporte() {
                 pestana === "sinAsignar" ? "Asignar" : "Terminar ticket"
               }
               onAccion={pestana === "sinAsignar" ? asignar : terminar}
+              onDetalle={setIdDetalle}
             />
           ))}
         </section>
+      )}
+
+      {idDetalle && (
+        <DetalleTicket id={idDetalle} onCerrar={cerrarDetalle} />
       )}
     </main>
   );

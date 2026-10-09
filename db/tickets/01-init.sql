@@ -58,7 +58,25 @@ BEGIN
 END;
 $$;
 
+CREATE FUNCTION public.patch_tickets(p_id uuid, p_asunto text, p_estado text, p_descripcion text,
+p_fecha_creacion date, p_idemisor uuid, p_idsoporte uuid)
+RETURNS uuid
+LANGUAGE sql
+VOLATILE
+AS $$
 
+	UPDATE tickets SET
+		asunto = COALESCE(p_asunto, asunto),
+		estado = COALESCE(p_estado, estado),
+		descripcion = COALESCE(p_descripcion, descripcion),
+		fechacreacion = COALESCE(p_fecha_creacion, fechacreacion),
+		idemisor = COALESCE(p_idemisor, idemisor),
+		idsoporte = COALESCE(p_idsoporte, idsoporte)
+	WHERE id = p_id
+	RETURNING id;
+	
+
+$$;
 
 --
 -- TOC entry 220 (class 1255 OID 16734)

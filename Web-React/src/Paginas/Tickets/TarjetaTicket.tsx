@@ -5,6 +5,7 @@ interface Props {
   etiquetaAccion: string;
   variante: "asignar" | "terminar";
   onAccion: (id: string) => void;
+  onDetalle: (id: string) => void;
 }
 
 const formatearFecha = (iso: string) =>
@@ -14,7 +15,13 @@ const formatearFecha = (iso: string) =>
     year: "numeric",
   });
 
-function TarjetaTicket({ ticket, etiquetaAccion, variante, onAccion }: Props) {
+function TarjetaTicket({
+  ticket,
+  etiquetaAccion,
+  variante,
+  onAccion,
+  onDetalle,
+}: Props) {
   return (
     <article className="ticket">
       <header className="ticket__cabecera">
@@ -33,13 +40,22 @@ function TarjetaTicket({ ticket, etiquetaAccion, variante, onAccion }: Props) {
             {formatearFecha(ticket.fechaCreacion)}
           </span>
         </div>
-        <button
-          type="button"
-          className={`ticket__accion ticket__accion--${variante}`}
-          onClick={() => onAccion(ticket.id)}
-        >
-          {etiquetaAccion}
-        </button>
+        <div className="ticket__botones">
+          <button
+            type="button"
+            className="ticket__detalle"
+            onClick={() => onDetalle(ticket.id)}
+          >
+            Ver detalle
+          </button>
+          <button
+            type="button"
+            className={`ticket__accion ticket__accion--${variante}`}
+            onClick={() => onAccion(ticket.id)}
+          >
+            {etiquetaAccion}
+          </button>
+        </div>
       </footer>
     </article>
   );

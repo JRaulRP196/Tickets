@@ -32,6 +32,7 @@ namespace Reglas
                 Descripcion = ticket.Descripcion,
                 IdEmisor = ticket.IdEmisor,
                 IdSoporte = ticket.IdSoporte,
+                FechaCreacion = ticket.FechaCreacion,
                 Emisor = emisor?.Nombre ?? "Usuario no encontrado",
                 Soporte = soporte?.Nombre ?? "Sin asignar"
             };

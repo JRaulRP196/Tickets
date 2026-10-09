@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { seguridadServicio } from "../../Servicios/Seguridad/EndPoints";
 import { useAuth } from "../../Servicios/Context";
 import { useNavigate } from "react-router";
@@ -14,6 +14,11 @@ function Login({ irARegistro }: Props) {
   const { iniciarSesion, sesion } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!sesion) return;
+    navigate(sesion.rol == 1 ? "/ticketSoporte" : "/ticketCliente");
+  }, [sesion, navigate]);
+
   const enviar = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -22,11 +27,6 @@ function Login({ irARegistro }: Props) {
         passwordHash: password,
       });
       iniciarSesion(token);
-      if (sesion?.rol == 1) {
-        navigate("/ticketSoporte", { replace: true });
-      } else {
-        navigate("/ticketCliente", { replace: true });
-      }
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);

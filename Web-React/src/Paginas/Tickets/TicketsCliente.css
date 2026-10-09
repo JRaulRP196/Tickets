@@ -1,0 +1,104 @@
+.cliente__nuevo {
+  border: 0;
+  border-radius: 9px;
+  background: var(--primario);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cliente__nuevo:hover { background: var(--primario-hover); }
+
+.cliente__nuevo:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primario) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.cliente__acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cliente__acciones > * { flex: 1; }
+
+.cliente__eliminar { background: var(--error-texto); }
+.cliente__eliminar:hover { filter: brightness(0.9); }
+
+/* Modal */
+.cliente__fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(16, 24, 40, 0.5);
+}
+
+.cliente__modal {
+  display: grid;
+  gap: 1rem;
+  width: min(480px, 100%);
+  padding: 1.5rem;
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+}
+
+.cliente__modal h2 { margin: 0; font-size: 1.25rem; }
+
+.cliente__campo {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cliente__campo input,
+.cliente__campo textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  background: var(--bg);
+  color: var(--texto);
+  font: inherit;
+  font-weight: 400;
+  resize: vertical;
+}
+
+.cliente__campo input:focus-visible,
+.cliente__campo textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primario) 40%, transparent);
+  outline-offset: 0;
+}
+
+.cliente__botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cliente__cancelar {
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .cliente__acciones { width: 100%; }
+  .cliente__acciones .ticket__accion { flex: 1; }
+  .soporte__encabezado { flex-wrap: wrap; }
+}

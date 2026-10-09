@@ -13,7 +13,7 @@ export class ApiError extends Error {
 export async function request<T>(
   url: string,
   body?: unknown,
-  method: "GET" | "POST" | "PUT" | "DELETE" = "GET",
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
 ): Promise<T> {
   const token = tokenStorage.get();
 

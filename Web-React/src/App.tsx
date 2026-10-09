@@ -2,6 +2,7 @@ import Auth from "./Paginas/Auth/Auth";
 import { Route, Routes, Navigate } from "react-router";
 import RutaSegura from "./components/RutaSegura";
 import TicketsSoporte from "./Paginas/Tickets/TicketsSoporte";
+import TicketsCliente from "./Paginas/Tickets/TicketsCliente";
 
 function App() {
   return (
@@ -13,6 +14,9 @@ function App() {
             path="/ticketSoporte"
             element={<TicketsSoporte></TicketsSoporte>}
           ></Route>
+        </Route>
+        <Route element={<RutaSegura roles={[2]}></RutaSegura>}>
+          <Route path="/ticketCliente" element={<TicketsCliente />} />
         </Route>
         <Route
           path="*"
