@@ -1,13 +1,4 @@
 .auth {
-  --bg: #f6f7fb;
-  --superficie: #ffffff;
-  --texto: #1b1f2a;
-  --texto-suave: #667085;
-  --borde: #dfe3ec;
-  --primario: #4f46e5;
-  --primario-hover: #4338ca;
-  --error-bg: #fef0f0;
-  --error-texto: #b42318;
   --marca-bg: #1e1b4b;
 
   min-height: 100vh;
@@ -20,15 +11,6 @@
 
 @media (prefers-color-scheme: dark) {
   .auth {
-    --bg: #0f1117;
-    --superficie: #181b25;
-    --texto: #eceef5;
-    --texto-suave: #98a0b3;
-    --borde: #2a2f3d;
-    --primario: #6366f1;
-    --primario-hover: #818cf8;
-    --error-bg: #3a1618;
-    --error-texto: #ffb4ab;
     --marca-bg: #14123a;
   }
 }

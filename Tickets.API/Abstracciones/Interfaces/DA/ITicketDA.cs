@@ -13,6 +13,8 @@ namespace Abstracciones.Interfaces.DA
         Task<Guid> Agregar(TicketRequest ticket);
         Task<Guid> Editar(TicketRequest ticket, Guid id);
         Task<Guid> Eliminar(Guid id);
+        Task<Guid> Asignar(Guid id, Guid idSoporte);
+        Task<Guid> Terminar(Guid id);
 
     }
 }

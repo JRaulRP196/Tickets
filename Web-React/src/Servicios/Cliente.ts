@@ -27,6 +27,7 @@ export async function request<T>(
   });
 
   if (!res.ok) {
+    if (res.status === 401) window.dispatchEvent(new Event("sesion-expirada"));
     throw new ApiError(
       res.status,
       (await res.text()) || `Error : ${res.status}`,

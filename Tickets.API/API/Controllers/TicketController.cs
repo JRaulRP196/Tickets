@@ -23,11 +23,20 @@ namespace API.Controllers
         {
             return Ok(await _ticketFlujo.Agregar(ticket));
         }
+        [Authorize(Roles = "1")]
+        [HttpPatch]
+        public async Task<IActionResult> Asignar([FromQuery] Guid id, [FromQuery] Guid idSoporte)
+        {
+            if (await _ticketFlujo.ObtenerTicketBase(id) == null)
+                return BadRequest("El ticket no existe");
+            return Ok(await _ticketFlujo.Asignar(id, idSoporte));
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Editar([FromBody] TicketRequest ticket, [FromRoute] Guid id)
         {
             if (await _ticketFlujo.ObtenerTicketBase(id) == null)
-                return BadRequest("El usuario no existe");
+                return BadRequest("El ticket no existe");
             return Ok(await _ticketFlujo.Editar(ticket, id));
         }
         [Authorize(Roles = "2")]
@@ -35,7 +44,7 @@ namespace API.Controllers
         public async Task<IActionResult> Eliminar([FromRoute] Guid id)
         {
             if (await _ticketFlujo.ObtenerTicketBase(id) == null)
-                return BadRequest("El usuario no existe");
+                return BadRequest("El ticket no existe");
             return Ok(await _ticketFlujo.Eliminar(id));
         }
         [HttpGet("{id}")]
@@ -81,6 +90,14 @@ namespace API.Controllers
             if (!tickets.Any())
                 return NoContent();
             return Ok(tickets);
+        }
+        [Authorize(Roles = "1")]
+        [HttpPatch("Terminar/{id}")]
+        public async Task<IActionResult> Terminar([FromRoute] Guid id)
+        {
+            if (await _ticketFlujo.ObtenerTicketBase(id) == null)
+                return BadRequest("El ticket no existe");
+            return Ok(await _ticketFlujo.Terminar(id));
         }
     }
 }

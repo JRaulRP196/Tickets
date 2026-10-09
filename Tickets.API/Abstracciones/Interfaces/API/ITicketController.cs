@@ -14,6 +14,8 @@ namespace Abstracciones.Interfaces.API
         Task<IActionResult> Agregar([FromBody] TicketRequest ticket);
         Task<IActionResult> Editar([FromBody] TicketRequest ticket, [FromRoute]  Guid id);
         Task<IActionResult> Eliminar([FromRoute]  Guid id);
+        Task<IActionResult> Asignar([FromQuery] Guid id, [FromQuery] Guid idSoporte);
+        Task<IActionResult> Terminar([FromRoute] Guid id);
 
     }
 }

@@ -22,6 +22,11 @@ namespace Flujo
             return await _ticketDA.Agregar(ticket);
         }
 
+        public async Task<Guid> Asignar(Guid id, Guid idSoporte)
+        {
+            return await _ticketDA.Asignar(id, idSoporte);
+        }
+
         public async Task<Guid> Editar(TicketRequest ticket, Guid id)
         {
             return await _ticketDA.Editar(ticket, id);
@@ -60,6 +65,11 @@ namespace Flujo
         public async Task<IEnumerable<TicketResponse>> ObtenerTicketsPendientes()
         {
             return await _ticketDA.ObtenerTicketsPendientes();
+        }
+
+        public async Task<Guid> Terminar(Guid id)
+        {
+            return await _ticketDA.Terminar(id);
         }
     }
 }

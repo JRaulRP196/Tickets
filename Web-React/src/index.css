@@ -1,3 +1,40 @@
+/* Tokens compartidos por todas las páginas */
+:root {
+  --bg: #f6f7fb;
+  --superficie: #ffffff;
+  --texto: #1b1f2a;
+  --texto-suave: #667085;
+  --borde: #dfe3ec;
+  --primario: #4f46e5;
+  --primario-hover: #4338ca;
+  --exito: #067647;
+  --exito-hover: #05603a;
+  --exito-bg: #e7f6ee;
+  --aviso-bg: #fff4e0;
+  --aviso-texto: #93370d;
+  --error-bg: #fef0f0;
+  --error-texto: #b42318;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1117;
+    --superficie: #181b25;
+    --texto: #eceef5;
+    --texto-suave: #98a0b3;
+    --borde: #2a2f3d;
+    --primario: #6366f1;
+    --primario-hover: #818cf8;
+    --exito: #12a05f;
+    --exito-hover: #2dc07c;
+    --exito-bg: #11291f;
+    --aviso-bg: #33270f;
+    --aviso-texto: #f6c67c;
+    --error-bg: #3a1618;
+    --error-texto: #ffb4ab;
+  }
+}
+
 *,
 *::before,
 *::after {

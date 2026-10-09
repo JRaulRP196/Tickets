@@ -32,6 +32,13 @@ namespace DA
             return respuesta;
         }
 
+        public async Task<Guid> Asignar(Guid id, Guid idSoporte)
+        {
+            string query = "SELECT patch_tickets(@p_id, NULL, @p_estado, NULL, NULL, NULL, @p_idsoporte)";
+            var respuesta = await _connection.ExecuteScalarAsync<Guid>(query, new { p_id = id, p_estado = "Asignado", p_idsoporte = idSoporte });
+            return respuesta;
+        }
+
         public async Task<Guid> Editar(TicketRequest ticket, Guid id)
         {
             string query ="SELECT fn_editar_ticket(@p_id, @p_asunto, @p_estado, @p_descripcion, @p_id_emisor, @p_id_soporte)";
@@ -86,6 +93,13 @@ namespace DA
         {
             string query = "SELECT * FROM obtener_tickets_pendientes()";
             var respuesta = await _connection.QueryAsync<TicketResponse>(query);
+            return respuesta;
+        }
+
+        public async Task<Guid> Terminar(Guid id)
+        {
+            string query = "SELECT patch_tickets(@p_id, NULL, @p_estado, NULL, NULL, NULL, NULL)";
+            var respuesta = await _connection.ExecuteScalarAsync<Guid>(query, new { p_id = id, p_estado = "Terminado" });
             return respuesta;
         }
     }

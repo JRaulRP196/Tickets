@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { seguridadServicio } from "../../Servicios/Seguridad/EndPoints";
-import { tokenStorage } from "../../Servicios/TokenStorage";
+import { useAuth } from "../../Servicios/Context";
+import { useNavigate } from "react-router";
 
 interface Props {
   irARegistro: () => void;
@@ -10,6 +11,8 @@ function Login({ irARegistro }: Props) {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { iniciarSesion, sesion } = useAuth();
+  const navigate = useNavigate();
 
   const enviar = async (e: FormEvent) => {
     e.preventDefault();
@@ -18,7 +21,12 @@ function Login({ irARegistro }: Props) {
         correo,
         passwordHash: password,
       });
-      tokenStorage.set(token);
+      iniciarSesion(token);
+      if (sesion?.rol == 1) {
+        navigate("/ticketSoporte", { replace: true });
+      } else {
+        navigate("/ticketCliente", { replace: true });
+      }
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
