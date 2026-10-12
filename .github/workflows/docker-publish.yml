@@ -41,3 +41,12 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:${{ github.sha }}
+
+      - name: Build and push seguridad api
+        uses: docker/build-push-action@v6
+        with:
+          context: Web-React
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/web-tickets:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/web-tickets:${{ github.sha }}
