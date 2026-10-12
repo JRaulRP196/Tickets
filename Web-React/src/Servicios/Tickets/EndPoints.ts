@@ -1,11 +1,12 @@
 import { request } from "../Cliente";
+import { config } from "../../config";
 import type {
   TicketDetalle,
   TicketRequest,
   TicketResponse,
 } from "./Models/Types";
 
-const BASE = import.meta.env.VITE_URL_API_TICKETS;
+const BASE = config.urlApiTickets;
 
 export const ticketServicio = {
   pendientes: () =>

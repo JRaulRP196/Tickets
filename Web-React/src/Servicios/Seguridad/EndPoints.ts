@@ -1,7 +1,8 @@
 import type { UsuarioRequest, Login, Token, Rol } from "./Models/Types";
 import { request } from "../Cliente";
+import { config } from "../../config";
 
-const BASE = import.meta.env.VITE_URL_API_SEGURIDAD;
+const BASE = config.urlApiSeguridad;
 
 export const seguridadServicio = {
   registrar: (usuario: UsuarioRequest) =>
