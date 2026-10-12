@@ -28,6 +28,17 @@ services:
       - 5002:8080
     pull_policy: always
 
+  web-react:
+    image: joserp196/web-tickets:latest
+    depends_on:
+      - api-tickets
+      - api-seguridad
+    environment:
+      - URL_API_SEGURIDAD=http://api-seguridad:8080
+      - URL_API_TICKETS=http://api-tickets:8080
+    ports:
+      - 3000:80
+
   db-tickets:
     image: postgres:18
     container_name: db-tickets
