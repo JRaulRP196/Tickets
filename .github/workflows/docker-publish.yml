@@ -42,7 +42,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/seguridad-tickets-api:${{ github.sha }}
 
-      - name: Build and push seguridad api
+      - name: Build and push web tickets
         uses: docker/build-push-action@v6
         with:
           context: Web-React
