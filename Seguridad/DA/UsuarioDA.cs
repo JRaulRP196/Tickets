@@ -48,10 +48,10 @@ namespace DA
             return resultado;
         }
 
-        public async Task<IEnumerable<string>> ObtenerCorreosSoporte()
+        public async Task<IEnumerable<CorreoUsuario>> ObtenerCorreosSoporte()
         {
             var query = "SELECT * FROM obtener_correos_soporte()";
-            var resultado = await _connection.QueryAsync<string>(query);
+            var resultado = await _connection.QueryAsync<CorreoUsuario>(query);
             return resultado;
         }
     }

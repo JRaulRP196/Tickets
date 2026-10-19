@@ -8,7 +8,7 @@ namespace Abstracciones.Interfaces.DA
         Task<UsuarioResponse> ObtenerUsuario(string correo);
         Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id);
         Task<Guid> CrearUsuario (UsuarioRequest usuario);
-        Task<IEnumerable<string>> ObtenerCorreosSoporte();
+        Task<IEnumerable<CorreoUsuario>> ObtenerCorreosSoporte();
 
     }
 }

@@ -51,7 +51,7 @@ services:
     ports:
       - 5678:5678
     volumes:
-      - ./n8n:/home/node/.n8n
+      - n8n_data:/home/node/.n8n
 
   db-tickets:
     image: postgres:18
@@ -78,3 +78,4 @@ services:
 volumes:
   tickets-data:
   seguridad-data:
+  n8n_data:
