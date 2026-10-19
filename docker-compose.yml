@@ -8,6 +8,7 @@ services:
       - ConnectionStrings__TicketsBD=Host=db-tickets;Port=5432;Database=${DB_TICKET_NAME};Username=${USER_DB_TICKET};Password=${PASSWORD_DB_TICKET}
       - ConnectionStrings__SeguridadBD=Host=db-seguridad;Port=5432;Database=${DB_SEGURIDAD_NAME};Username=${USER_DB_SEGURIDAD};Password=${PASSWORD_DB_SEGURIDAD}
       - ApiUsuarios__UrlBase=http://api-seguridad:8080
+      - ApiN8n__UrlBase=http://n8n:5678
       - TokenConfiguracion__Key=${API_KEY}
       - TokenConfiguracion__Issuer=http://api-seguridad:8080
       - TokenConfiguracion__Audience=http://api-tickets:8080

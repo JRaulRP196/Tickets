@@ -59,6 +59,7 @@ builder.Services.AddScoped<ITicketFlujo, TicketFlujo>();
 builder.Services.AddScoped<ITicketRegla, TicketRegla>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IUsuarioServicios, UsuarioServicio>();
+builder.Services.AddScoped<IN8nServicios, N8nServicio>();
 
 builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();
 builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();

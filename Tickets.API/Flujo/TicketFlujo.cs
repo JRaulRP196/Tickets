@@ -19,7 +19,7 @@ namespace Flujo
 
         public async Task<Guid> Agregar(TicketRequest ticket)
         {
-            return await _ticketDA.Agregar(ticket);
+            return await _ticketRegla.Agregar(ticket);
         }
 
         public async Task<Guid> Asignar(Guid id, Guid idSoporte)

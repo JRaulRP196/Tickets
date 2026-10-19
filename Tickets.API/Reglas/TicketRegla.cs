@@ -10,11 +10,27 @@ namespace Reglas
 
         private readonly ITicketDA _ticketDA;
         private readonly IUsuarioServicios _usuarioServicios;
+        private readonly IN8nServicios _n8nServicios;
 
-        public TicketRegla(ITicketDA ticketDA, IUsuarioServicios usuarioServicios)
+        public TicketRegla(ITicketDA ticketDA, IUsuarioServicios usuarioServicios, IN8nServicios n8nServicios)
         {
             _ticketDA = ticketDA;
             _usuarioServicios = usuarioServicios;
+            _n8nServicios = n8nServicios;
+        }
+
+        public async Task<Guid> Agregar(TicketRequest ticket)
+        {
+            var id = await _ticketDA.Agregar(ticket);
+            try
+            {
+                await _n8nServicios.EnviarNotificacion();
+            }
+            catch (HttpRequestException)
+            {
+                // El ticket ya fue creado; una falla de n8n no debe revertir ni romper la operación.
+            }
+            return id;
         }
 
         public async Task<TicketDetalle> ObtenerTicket(Guid id)
