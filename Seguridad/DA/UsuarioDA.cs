@@ -47,5 +47,12 @@ namespace DA
             var resultado = await _connection.QueryFirstOrDefaultAsync<UsuarioResponse>(query, new { p_id = id });
             return resultado;
         }
+
+        public async Task<IEnumerable<string>> ObtenerCorreosSoporte()
+        {
+            var query = "SELECT * FROM obtener_correos_soporte()";
+            var resultado = await _connection.QueryAsync<string>(query);
+            return resultado;
+        }
     }
 }

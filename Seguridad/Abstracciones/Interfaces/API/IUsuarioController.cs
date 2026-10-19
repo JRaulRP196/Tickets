@@ -7,5 +7,6 @@ namespace Abstracciones.Interfaces.API
     {
         Task<IActionResult> ObtenerUsuarioPorId(Guid id);
         Task<IActionResult> CrearUsuario(UsuarioRequest usuario);
+        Task<IActionResult> ObtenerCorreosSoporte();
     }
 }

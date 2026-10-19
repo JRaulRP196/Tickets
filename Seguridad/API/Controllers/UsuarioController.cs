@@ -27,6 +27,15 @@ namespace API.Controllers
             var respuesta = await _usuarioFlujo.CrearUsuario(usuario);
             return Ok(respuesta);
         }
+        [AllowAnonymous]
+        [HttpGet("CorreosSoporte")]
+        public async Task<IActionResult> ObtenerCorreosSoporte()
+        {
+            var correos = await _usuarioFlujo.ObtenerCorreosSoporte();
+            if(!correos.Any())
+                return NoContent();
+            return Ok(correos);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid id)
         {

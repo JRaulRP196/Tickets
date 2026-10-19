@@ -120,6 +120,21 @@ $$;
 
 
 
+--
+-- Name: obtener_correos_soporte(); Type: FUNCTION; Schema: public
+--
+
+CREATE OR REPLACE FUNCTION public.obtener_correos_soporte() RETURNS TABLE(correo text)
+    LANGUAGE sql STABLE
+    AS $$
+	SELECT u.correo :: text
+	FROM usuarios u
+	INNER JOIN roles r ON u.idrol = r.id
+	WHERE r.nombre = 'Soporte' AND u.estado = true;
+$$;
+
+
+
 
 
 

@@ -34,5 +34,10 @@ namespace Flujo
         {
             return await _seguridadDA.ObtenerUsuarioPorId(id);
         }
+
+        public async Task<IEnumerable<string>> ObtenerCorreosSoporte()
+        {
+            return await _seguridadDA.ObtenerCorreosSoporte();
+        }
     }
 }

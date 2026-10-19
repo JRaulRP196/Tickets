@@ -7,5 +7,6 @@ namespace Abstracciones.Interfaces.Flujo
         Task<Guid> CrearUsuario(UsuarioRequest usuario);
         Task<UsuarioResponse> ObtenerUsuario(string correo);
         Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id);
+        Task<IEnumerable<string>> ObtenerCorreosSoporte();
     }
 }
